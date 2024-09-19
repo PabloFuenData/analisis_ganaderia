@@ -1,0 +1,192 @@
+# Vamos a generar el script para crear las tablas solicitadas y rellenarlas con los datos generados.
+
+import random
+from datetime import datetime, timedelta
+import pandas as pd
+
+# Definir funciones de generación de datos
+
+# Generar fechas de nacimiento aleatorias
+def generate_random_date(start_year, end_year):
+    start_date = datetime(start_year, 1, 1)
+    end_date = datetime(end_year, 12, 31)
+    return start_date + timedelta(days=random.randint(0, (end_date - start_date).days))
+
+# Generar precios de venta aleatorios
+def generate_random_price():
+    return round(random.uniform(1000, 10000), 2)
+
+# Generar pesos aleatorios
+def generate_random_weight(min_weight, max_weight):
+    return round(random.uniform(min_weight, max_weight), 2)
+
+# Generar registros para tabla Vientres (150 registros)
+def generate_vientres(num_records=150):
+    vientres = []
+    for i in range(1, num_records + 1):
+        vientres.append({
+            "id_vaca": i,
+            "fecha_nacimiento": generate_random_date(2012, 2020).strftime('%Y-%m-%d'),
+            "origen": random.choice(["criolla", "comprada"]),
+            "numero_partos": random.randint(0, 8)
+        })
+    return pd.DataFrame(vientres)
+
+# Generar registros para tabla Toros (4 registros)
+def generate_toros():
+    toros = [
+        {"id_toro": 1, "nombre": "Cambridge"},
+        {"id_toro": 2, "nombre": "Tango"},
+        {"id_toro": 3, "nombre": "Ranger"},
+        {"id_toro": 4, "nombre": "Galeno"}
+    ]
+    return pd.DataFrame(toros)
+
+# Generar registros para tabla Cria (2000 registros)
+def generate_cria(num_records=2000, num_vientres=150, num_toros=4):
+    cria = []
+    for i in range(1, num_records + 1):
+        fecha_nacimiento = generate_random_date(2021, 2024)
+        cria.append({
+            "id_animal": i,
+            "id_vaca": random.randint(1, num_vientres),
+            "id_toro": random.randint(1, num_toros),
+            "fecha_nacimiento": fecha_nacimiento.strftime('%Y-%m-%d'),
+            "sexo": random.choice(["M", "H"]),
+            "peso_nacimiento": generate_random_weight(30, 50),
+            "peso_final": generate_random_weight(350, 900),
+            "precio_venta": generate_random_price(),
+            "status": random.choice(["vendida", "disponible", "rechazado"])
+        })
+    return pd.DataFrame(cria)
+
+# Generar fechas de nacimiento aleatorias
+def generate_random_date(start_year, end_year):
+    start_date = datetime(start_year, 1, 1)
+    end_date = datetime(end_year, 12, 31)
+    return start_date + timedelta(days=random.randint(0, (end_date - start_date).days))
+
+# Generar nombres de fincas al azar
+def generate_random_farm_name():
+    farm_names = [
+        "Finca_La_Villa", "Finca_San_Jose", "Finca_Los_Amates", "Finca_El_Palmar",
+        "Finca_Casa_Nueva", "Finca_Santa_Rosa", "Finca_Los_Pinos", "Finca_El_Salvador",
+        "Finca_Monteverde", "Finca_El_Mango", "Finca_Los_Cedros", "Finca_El_Tres",
+        "Finca_San_Isidro", "Finca_La_Ceiba", "Finca_El_Campo", "Finca_La_Quinta",
+        "Finca_Los_Floridos", "Finca_Santa_Clara", "Finca_Los_Alamos", "Finca_El_Viento",
+        "Finca_La_Concepcion", "Finca_San_Marcos", "Finca_El_Sauco", "Finca_Los_Robles",
+        "Finca_La_Esperanza", "Finca_El_Rancho", "Finca_San_Antonio", "Finca_Los_Bosques",
+        "Finca_El_Horizonte", "Finca_La_Sombra", "Finca_El_Avila", "Finca_Los_Corales",
+        "Finca_San_Pedro", "Finca_La_Montaña", "Finca_El_Oasis", "Finca_Los_Valle",
+        "Finca_Santa_Maria", "Finca_El_Faro", "Finca_La_Joya", "Finca_Los_Guaduales",
+        "Finca_El_Estero", "Finca_La_Alameda", "Finca_San_Lorenzo", "Finca_Los_Angeles",
+        "Finca_El_Salto", "Finca_La_Torre", "Finca_Los_Jazmines", "Finca_El_Corazon",
+        "Finca_San_Juan", "Finca_La_Florida", "Finca_El_Tecolote", "Finca_Los_Sauces",
+        "Finca_El_Pino", "Finca_La_Esquina", "Finca_Los_Manglares", "Finca_El_Palacio",
+        "Finca_San_Cristobal", "Finca_La_Era", "Finca_El_Silencio", "Finca_Los_Castanos",
+        "Finca_El_Pueblito", "Finca_La_Finca", "Finca_Los_Valles", "Finca_El_Retoño",
+        "Finca_San_Alberto", "Finca_La_Granja", "Finca_El_Estrella", "Finca_Los_Baños",
+        "Finca_El_Lago", "Finca_La_Cima", "Finca_Los_Claveles", "Finca_El_Palmarito"
+    ]
+    return random.choice(farm_names)
+
+# Generar registros para tabla Clientes (100 registros)
+def generate_clientes(num_records=100):
+    clientes = []
+    for i in range(1, num_records + 1):
+        clientes.append({
+            "id_cliente": i,
+            "nombre": generate_random_farm_name(),
+            "ubicacion": random.choice(["Guatemala", "Escuintla", "Retalhuleu", "Peten"]),
+            "fecha_registro": generate_random_date(2015, 2023).strftime('%Y-%m-%d'),
+            "tipo_cliente": random.choice(["regular", "premium"])
+        })
+    return pd.DataFrame(clientes)
+
+# Generar registros para tabla Ventas (800 registros)
+def generate_ventas(num_records=800, num_clientes=100, num_cria=2000):
+    ventas = []
+    for i in range(1, num_records + 1):
+        ventas.append({
+            "id_venta": i,
+            "fecha_venta": generate_random_date(2020, 2023).strftime('%Y-%m-%d'),
+            "id_cliente": random.randint(1, num_clientes),
+            "id_animal": random.randint(1, num_cria),
+            "precio_venta": generate_random_price()
+        })
+    return pd.DataFrame(ventas)
+
+# Generar registros para tabla Inseminacion (1500 registros)
+def generate_inseminacion(num_records=1500, num_vientres=150, num_toros=4):
+    inseminacion = []
+    for i in range(1, num_records + 1):
+        fecha_servicio = generate_random_date(2020, 2024)
+        resultado = random.choice(["preñado", "no preñado"])
+        fecha_parto = (fecha_servicio + timedelta(days=285)).strftime('%Y-%m-%d') if resultado == "preñado" else None
+        inseminacion.append({
+            "id_inseminacion": i,
+            "id_vaca_id_toro": f"{random.randint(1, num_vientres)}_{random.randint(1, num_toros)}",
+            "fecha_servicio": fecha_servicio.strftime('%Y-%m-%d'),
+            "resultado": resultado,
+            "fecha_parto": fecha_parto
+        })
+    return pd.DataFrame(inseminacion)
+
+# Generar registros para tabla Costos (150 registros)
+def generate_costos(num_records=150, num_cria=2000):
+    costos = []
+    for i in range(1, num_records + 1):
+        costos.append({
+            "id_costo_id_animal": f"{i}_{random.randint(1, num_cria)}",
+            "tipo_costo": random.choice(["alimentación", "salud", "prueba médica", "registro"]),
+            "monto": round(random.uniform(100, 2000), 2),
+            "fecha": generate_random_date(2021, 2024).strftime('%Y-%m-%d')
+        })
+    return pd.DataFrame(costos)
+
+# Generar y mostrar los primeros registros de cada tabla
+vientres = generate_vientres()
+toros = generate_toros()
+cria = generate_cria()
+clientes = generate_clientes()
+ventas = generate_ventas()
+inseminacion = generate_inseminacion()
+costos = generate_costos()
+
+(vientres.head(), toros.head(), cria.head(), clientes.head(), ventas.head(), inseminacion.head(), costos.head())
+
+# Vamos a ajustar las tablas de Inseminacion y Costos para tener columnas separadas para id_vaca, id_toro, id_costo e id_animal.
+
+# Modificar la tabla Inseminacion
+def modify_inseminacion(inseminacion):
+    inseminacion[['id_vaca', 'id_toro']] = inseminacion['id_vaca_id_toro'].str.split('_', expand=True)
+    inseminacion['id_vaca'] = inseminacion['id_vaca'].astype(int)
+    inseminacion['id_toro'] = inseminacion['id_toro'].astype(int)
+    inseminacion = inseminacion.drop(columns=['id_vaca_id_toro'])
+    return inseminacion
+
+# Modificar la tabla Costos
+def modify_costos(costos):
+    costos[['id_costo', 'id_animal']] = costos['id_costo_id_animal'].str.split('_', expand=True)
+    costos['id_costo'] = costos['id_costo'].astype(int)
+    costos['id_animal'] = costos['id_animal'].astype(int)
+    costos = costos.drop(columns=['id_costo_id_animal'])
+    return costos
+
+# Aplicar los cambios a las tablas correspondientes
+inseminacion_modificada = modify_inseminacion(inseminacion)
+costos_modificados = modify_costos(costos)
+
+# Mostrar los primeros registros de las tablas modificadas
+inseminacion_modificada.head(), costos_modificados.head()
+
+# Guardar las tablas en archivos CSV
+vientres.to_csv('vientres.csv', index=False)
+toros.to_csv('toros.csv', index=False)
+cria.to_csv('cria.csv', index=False)
+clientes.to_csv('clientes.csv', index=False)
+ventas.to_csv('ventas.csv', index=False)
+inseminacion_modificada.to_csv('inseminacion.csv', index=False)
+costos_modificados.to_csv('costos.csv', index=False)
+
+print("Archivos CSV generados exitosamente.")
