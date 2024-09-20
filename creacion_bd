@@ -1,3 +1,5 @@
+## Codigo para generar la creacion de la base de datos de ganaderia con datos aleatorios en Python
+
 # Vamos a generar el script para crear las tablas solicitadas y rellenarlas con los datos generados.
 
 import random
